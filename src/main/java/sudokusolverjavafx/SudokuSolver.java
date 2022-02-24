@@ -1,11 +1,7 @@
 package sudokusolverjavafx;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-//import java.util.Collections;
 import java.util.HashSet;
-
-// Refactor code for performance
 
 public class SudokuSolver {
 
@@ -57,8 +53,6 @@ public class SudokuSolver {
             {'.','.','.','.','.','.','.','.','.'}
     };
 
-
-
     public boolean solved = false;
 
     public char[][] solveSudoku(char[][] board){  //**Make a separate function that actually does the recursive stuff, so I don't have to pass back the board.
@@ -79,10 +73,10 @@ public class SudokuSolver {
                             return board;
                         }
 
-                        for (int l = 0; l < 9; l++){                           //These lines just print the board at every iteration.
-                            System.out.println(Arrays.toString(board[l]));
-                        };
-                        System.out.println(" ");
+//                        for (int l = 0; l < 9; l++){                           //These lines just print the board at every iteration.
+//                            System.out.println(Arrays.toString(board[l]));
+//                        };
+//                        System.out.println(" ");
                     }
                 }
             }
@@ -130,27 +124,7 @@ public class SudokuSolver {
             }
         }
 
-
-//        for (char number : square){
-//            if (number != '.' && Collections.frequency(square, number) != 1){ //Replace with for loop for performance
-//                return false;
-//            }
-//        }
-
-//        for (char i : square){
-//            for (char k : square){
-//                if (i == k){
-//                    return false;
-//                }
-//            }
-//        }
-
-
-        if (square.size() != new HashSet<>(square).size()){ // HashSet is like a list but with only unique values. This is a quick way to check that the square has no duplicates.
-            return false;
-        };
-
-        return true;
+        return square.size() == new HashSet<>(square).size();
     }
 }
 
