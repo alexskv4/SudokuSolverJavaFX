@@ -13,14 +13,23 @@ public class SudokuGrid extends GridPane {
 
         getStylesheets().add(Resources.get("SudokuGrid.css")); // Uses our resources class method to get the style from resources folder
 
-
         for (int x = 0; x<9; x++){
             for (int y = 0; y<9; y++){
-                TextField sudokuCell = new TextField(); // Somewhere here make it so you can only input 1 character into the textfield.
+                int finalY = y;
+                int finalX = x;
+                TextField sudokuCell = new TextField(); // todo Somewhere here make it so that you can only input 1 character into the textField.
                 sudokuCell.setOnKeyPressed(event -> {
-
                     if (event.getCode() == KeyCode.UP){
-                        //Set it to move the selector to adjacent textfields when arrow keys are pressed.
+                        textfieldArr[wrapGridIndex(finalY - 1)][finalX].requestFocus();
+                    }
+                    if (event.getCode() == KeyCode.DOWN){
+                        textfieldArr[wrapGridIndex(finalY + 1)][finalX].requestFocus();
+                    }
+                    if (event.getCode() == KeyCode.LEFT){
+                        textfieldArr[finalY][wrapGridIndex(finalX - 1)].requestFocus();
+                    }
+                    if (event.getCode() == KeyCode.RIGHT){
+                        textfieldArr[finalY][wrapGridIndex(finalX + 1)].requestFocus();
                     }
 
 
@@ -40,6 +49,17 @@ public class SudokuGrid extends GridPane {
 
     }
 
+    private int wrapGridIndex (int currentIndex) {
+
+        if (currentIndex > 8){
+            return 0;
+        } else if (currentIndex < 0) {
+            return 8;
+        } else {
+            return currentIndex;
+        }
+
+    }
 
     public void loadSudoku(char[][] sudoku){
 
@@ -94,6 +114,4 @@ public class SudokuGrid extends GridPane {
         }
         return sudokuCharArr;
     }
-
-
 }
