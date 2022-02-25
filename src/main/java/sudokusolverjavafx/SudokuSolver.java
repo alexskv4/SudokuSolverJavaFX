@@ -53,24 +53,26 @@ public class SudokuSolver {
             {'.','.','.','.','.','.','.','.','.'}
     };
 
-    public boolean solved = false;
+    public char[][] solveSudoku(char[][] board){
+        solve(board);
+        return board;
+    }
 
-    public char[][] solveSudoku(char[][] board){  //**Make a separate function that actually does the recursive stuff, so I don't have to pass back the board.
+    private boolean solve (char[][] board){
         for (int i = 0; i<= 8; i++){ //iterating down the vertical
             for (int j = 0; j<= 8; j++){ //iterating across the row
                 if (board[i][j] == '.'){ //Check if empty cell
                     for (int k =1; k<= 9; k++){ //iterate trying to put every integer into cell
                         board[i][j] = (char)(k + '0');
                         if (boardCheck(j, i, board)){
-                            solveSudoku(board);
-                            if (solved){
-                                return board;
+                            if (solve(board)){
+                                return true;
                             }
                         }
 
                         if (k == 9) {
                             board[i][j] = '.';
-                            return board;
+                            return false;
                         }
 
 //                        for (int l = 0; l < 9; l++){                           //These lines just print the board at every iteration.
@@ -81,8 +83,7 @@ public class SudokuSolver {
                 }
             }
         }
-        solved = true;
-        return board;
+        return true;
     }
 
     public boolean boardCheck(int numIndex, int rowIndex, char[][] board){
