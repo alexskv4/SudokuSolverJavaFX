@@ -18,7 +18,7 @@ public class SudokuGrid extends GridPane {
                 int finalY = y;
                 int finalX = x;
                 TextField sudokuCell = new TextField(); // todo Somewhere here make it so that you can only input 1 character into the textField.
-                sudokuCell.setOnKeyPressed(event -> {
+                sudokuCell.setOnKeyPressed(event -> {   // todo Tie the textfieldArr to the board in the solve sudoku class to display every step.
                     if (event.getCode() == KeyCode.UP){
                         textfieldArr[wrapGridIndex(finalY - 1)][finalX].requestFocus();
                     }
@@ -31,7 +31,6 @@ public class SudokuGrid extends GridPane {
                     if (event.getCode() == KeyCode.RIGHT){
                         textfieldArr[finalY][wrapGridIndex(finalX + 1)].requestFocus();
                     }
-
 
                 });
                 sudokuCell.setFont(new Font(35));
