@@ -1,0 +1,6 @@
+.label {
+    -fx-text-fill: darkblue;
+    -fx-text-alignment: center;
+    -fx-label-padding: 10px;
+    -fx-background-color: lightblue;
+  }
