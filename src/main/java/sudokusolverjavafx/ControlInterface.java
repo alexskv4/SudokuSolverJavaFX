@@ -13,7 +13,7 @@ public class ControlInterface extends VBox {
 
         solveButton.setOnAction(event -> {
 
-            grid.loadSudoku(new SudokuSolver().solveSudoku(grid.convertSudokuToChar(grid.textfieldArr))); // pass the textfield arr
+            grid.loadSudoku(new SudokuSolver().solveSudoku(grid.convertSudokuToChar(grid.cellArr)));
 
         });
 

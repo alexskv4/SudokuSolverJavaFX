@@ -1,13 +1,12 @@
 package sudokusolverjavafx;
 
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 
 public class SudokuGrid extends GridPane {
 
-    public final TextField[][] textfieldArr = new TextField[9][9];
+    public final SudokuCell[][] cellArr = new SudokuCell[9][9];
 
     public SudokuGrid(){
 
@@ -17,35 +16,39 @@ public class SudokuGrid extends GridPane {
             for (int y = 0; y<9; y++){
                 int finalY = y;
                 int finalX = x;
-                TextField sudokuCell = new TextField(); // todo Somewhere here make it so that you can only input 1 character into the textField.
-                sudokuCell.setOnKeyPressed(event -> {   // todo Tie the textfieldArr to the board in the solve sudoku class to display every step.
+                SudokuCell sudokuCell = new SudokuCell();
+                sudokuCell.setOnKeyPressed(event -> {   // todo Tie the cellArr to the board in the solve sudoku class to display every step.
                     if (event.getCode() == KeyCode.UP){
-                        textfieldArr[wrapGridIndex(finalY - 1)][finalX].requestFocus();
+                        cellArr[wrapGridIndex(finalY - 1)][finalX].requestFocus();
                     }
                     if (event.getCode() == KeyCode.DOWN){
-                        textfieldArr[wrapGridIndex(finalY + 1)][finalX].requestFocus();
+                        cellArr[wrapGridIndex(finalY + 1)][finalX].requestFocus();
                     }
                     if (event.getCode() == KeyCode.LEFT){
-                        textfieldArr[finalY][wrapGridIndex(finalX - 1)].requestFocus();
+                        cellArr[finalY][wrapGridIndex(finalX - 1)].requestFocus();
                     }
                     if (event.getCode() == KeyCode.RIGHT){
-                        textfieldArr[finalY][wrapGridIndex(finalX + 1)].requestFocus();
+                        cellArr[finalY][wrapGridIndex(finalX + 1)].requestFocus();
                     }
-
+                    if (event.getCode().isDigitKey() && event.getCode() != KeyCode.DIGIT0){
+                        setCell(event.getText(), finalX, finalY);
+                    }
+                    if (event.getCode() == KeyCode.BACK_SPACE){
+                        setCell("", finalX, finalY);
+                    }
+                    event.consume();
                 });
                 sudokuCell.setFont(new Font(35));
-                textfieldArr[y][x] = sudokuCell;
+                cellArr[y][x] = sudokuCell;
                 add(sudokuCell, x, y);
             }
         }
-
         loadSudoku(SudokuSolver.board4);
     }
 
     public void setCell(String val, int x, int y){
 
-        textfieldArr[y][x].setText(val);
-
+        cellArr[y][x].setText(val);
     }
 
     private int wrapGridIndex (int currentIndex) {
@@ -74,7 +77,6 @@ public class SudokuGrid extends GridPane {
                 }
             }
         }
-
     }
 
     public void loadSudokuFromString (String sudokuString){
@@ -90,18 +92,16 @@ public class SudokuGrid extends GridPane {
                 i++;
             }
         }
-
-
     }
 
-    public char[][] convertSudokuToChar (TextField[][] textfieldArr){
+    public char[][] convertSudokuToChar (SudokuCell[][] cellArr){
 
         char[][] sudokuCharArr = new char[9][9];
 
         for (int x =0; x<9; x++){
             for (int y = 0; y<9; y++){
 
-                String cellString = textfieldArr[y][x].getText();
+                String cellString = cellArr[y][x].getText();
 
                 if (cellString.isBlank()){
                     sudokuCharArr[y][x] = '.';
