@@ -3,4 +3,12 @@
     -fx-text-alignment: center;
     -fx-label-padding: 10px;
     -fx-background-color: lightblue;
+    -fx-max-height: 2em;
+    -fx-min-height: 2em;
+    -fx-max-width: 2em;
+    -fx-min-width: 2em;
+    -fx-alignment: center;
+    /*-fx-padding: 0.5em;
+    -fx-insets: none;*/
   }
+
