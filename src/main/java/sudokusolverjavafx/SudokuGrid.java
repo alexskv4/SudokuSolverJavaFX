@@ -79,7 +79,19 @@ public class SudokuGrid extends GridPane {
         }
     }
 
-    public void loadSudokuFromString (String sudokuString){
+    public void loadSudokuFromString (String sudokuString){ //todo: Throws error when incorrect string input. Make it check if the input is correct.
+
+        if (sudokuString.length() != 81){
+            throw new NumberFormatException();
+        }
+
+        char[] chars = sudokuString.toCharArray();
+        for (char c : chars){
+            if (!Character.isDigit(c)){
+                throw new NumberFormatException();
+            }
+        }
+
         int i = 0;
         for (int y = 0; y < 9; y++){
             for (int x = 0; x < 9; x++){

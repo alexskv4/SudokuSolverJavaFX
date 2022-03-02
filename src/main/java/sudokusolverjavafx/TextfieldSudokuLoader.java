@@ -16,7 +16,12 @@ public class TextfieldSudokuLoader extends HBox {
         Button submitButton = new Button("Load");
 
         submitButton.setOnAction(event -> {
-            grid.loadSudokuFromString(textField.getText());
+            try {
+                grid.loadSudokuFromString(textField.getText());
+            }
+            catch (NumberFormatException e){
+                textField.setText("Not a valid format.");
+            }
         });
 
         getChildren().add(textField);
