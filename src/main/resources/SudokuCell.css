@@ -1,8 +1,8 @@
 .label {
-    -fx-text-fill: darkblue;
+    -fx-text-fill: black;
     -fx-text-alignment: center;
     -fx-label-padding: 10px;
-    -fx-background-color: lightblue;
+    -fx-background-color: white;
     -fx-max-height: 2em;
     -fx-min-height: 2em;
     -fx-max-width: 2em;

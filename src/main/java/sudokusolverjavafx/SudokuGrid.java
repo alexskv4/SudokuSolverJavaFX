@@ -17,13 +17,26 @@ public class SudokuGrid extends GridPane {
             for (int y = 0; y<9; y++){
                 int finalY = y;
                 int finalX = x;
+
+                double upBorderWidth = 1.0;
+                double rightBorderWidth = 1.0;
+                double downBorderWidth = 1.0;
+                double leftBorderWidth = 1.0;
+
+                if (finalX % 3 == 2 && finalX != 8){
+                    rightBorderWidth = 5.0;
+                }
+                if (finalY % 3 == 0 && finalY != 0){
+                    upBorderWidth = 5.0;
+                }
+
                 SudokuCell sudokuCell = new SudokuCell();
-                sudokuCell.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+                sudokuCell.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(upBorderWidth, rightBorderWidth, downBorderWidth, leftBorderWidth))));
 
-                //todo Make the setBorder set differing borders on different sides depending where in the grid the cell is to make the sudoku 3x3 squares.
+                //todo Tie the cellArr to the board in the solve sudoku class to display every step.
+                //todo Put all this navigation logic in the sudokuCell class?
 
-                sudokuCell.setOnKeyPressed(event -> {   //todo Tie the cellArr to the board in the solve sudoku class to display every step.
-                                                        //todo Put all this navigation logic in the sudokuCell class?
+                sudokuCell.setOnKeyPressed(event -> {
                     if (event.getCode() == KeyCode.UP){
                         cellArr[wrapGridIndex(finalY - 1)][finalX].requestFocus();
                     }
