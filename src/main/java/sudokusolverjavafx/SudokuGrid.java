@@ -1,7 +1,8 @@
 package sudokusolverjavafx;
 
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class SudokuGrid extends GridPane {
@@ -17,7 +18,12 @@ public class SudokuGrid extends GridPane {
                 int finalY = y;
                 int finalX = x;
                 SudokuCell sudokuCell = new SudokuCell();
-                sudokuCell.setOnKeyPressed(event -> {   // todo Tie the cellArr to the board in the solve sudoku class to display every step.
+                sudokuCell.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+
+                //todo Make the setBorder set differing borders on different sides depending where in the grid the cell is to make the sudoku 3x3 squares.
+
+                sudokuCell.setOnKeyPressed(event -> {   //todo Tie the cellArr to the board in the solve sudoku class to display every step.
+                                                        //todo Put all this navigation logic in the sudokuCell class?
                     if (event.getCode() == KeyCode.UP){
                         cellArr[wrapGridIndex(finalY - 1)][finalX].requestFocus();
                     }
@@ -79,7 +85,7 @@ public class SudokuGrid extends GridPane {
         }
     }
 
-    public void loadSudokuFromString (String sudokuString){ //todo: Throws error when incorrect string input. Make it check if the input is correct.
+    public void loadSudokuFromString (String sudokuString){
 
         if (sudokuString.length() != 81){
             throw new NumberFormatException();
