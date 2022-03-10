@@ -1,5 +1,5 @@
 .label {
-    -fx-text-fill: black;
+    /*-fx-text-fill: black;*/
     -fx-text-alignment: center;
     -fx-label-padding: 10px;
     -fx-background-color: white;

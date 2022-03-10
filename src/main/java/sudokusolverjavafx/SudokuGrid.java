@@ -33,7 +33,7 @@ public class SudokuGrid extends GridPane {
                 SudokuCell sudokuCell = new SudokuCell();
                 sudokuCell.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(upBorderWidth, rightBorderWidth, downBorderWidth, leftBorderWidth))));
 
-                //todo Tie the cellArr to the board in the solve sudoku class to display every step.
+                //todo Tie the cellArr to the board in the solve sudoku class to display every step. Possibly using event handling and firing.
                 //todo Put all this navigation logic in the sudokuCell class?
 
                 sudokuCell.setOnKeyPressed(event -> {
@@ -50,10 +50,10 @@ public class SudokuGrid extends GridPane {
                         cellArr[finalY][wrapGridIndex(finalX + 1)].requestFocus();
                     }
                     if (event.getCode().isDigitKey() && event.getCode() != KeyCode.DIGIT0){
-                        setCell(event.getText(), finalX, finalY);
+                        setCell(event.getText(), finalX, finalY, false);
                     }
                     if (event.getCode() == KeyCode.BACK_SPACE){
-                        setCell("", finalX, finalY);
+                        setCell("", finalX, finalY, false);
                     }
                     event.consume();
                 });
@@ -65,9 +65,15 @@ public class SudokuGrid extends GridPane {
         loadSudoku(SudokuSolver.board4);
     }
 
-    public void setCell(String val, int x, int y){
+    public void setCell(String val, int x, int y, boolean loadingPreset){
 
         cellArr[y][x].setText(val);
+        if (!SudokuSolver.boardCheck(x, y, convertSudokuToChar(cellArr)) && !loadingPreset){
+            cellArr[y][x].setTextFill(Color.RED);
+        }
+        else{
+            cellArr[y][x].setTextFill(Color.BLACK);
+        }
     }
 
     private int wrapGridIndex (int currentIndex) {
@@ -89,10 +95,10 @@ public class SudokuGrid extends GridPane {
 
                 String cellVal = String.valueOf(sudoku[y][x]);
                 if (cellVal.equals(".")){
-                    setCell("", x, y);
+                    setCell("", x, y, true);
                 }
                 else {
-                    setCell(cellVal, x, y );
+                    setCell(cellVal, x, y, true);
                 }
             }
         }
@@ -115,10 +121,10 @@ public class SudokuGrid extends GridPane {
         for (int y = 0; y < 9; y++){
             for (int x = 0; x < 9; x++){
                 if (sudokuString.charAt(i) == '0'){
-                    setCell("", x, y);
+                    setCell("", x, y, true);
                 }
                 else {
-                    setCell(sudokuString.substring(i, i+1), x, y);
+                    setCell(sudokuString.substring(i, i+1), x, y, true);
                 }
                 i++;
             }

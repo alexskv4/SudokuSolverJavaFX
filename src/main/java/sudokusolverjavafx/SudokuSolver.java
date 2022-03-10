@@ -64,6 +64,7 @@ public class SudokuSolver {
                 if (board[i][j] == '.'){ //Check if empty cell
                     for (int k =1; k<= 9; k++){ //iterate trying to put every integer into cell
                         board[i][j] = (char)(k + '0');
+                        
                         if (boardCheck(j, i, board)){
                             if (solve(board)){
                                 return true;
@@ -86,7 +87,7 @@ public class SudokuSolver {
         return true;
     }
 
-    public boolean boardCheck(int numIndex, int rowIndex, char[][] board){
+    public static boolean boardCheck(int numIndex, int rowIndex, char[][] board){
 
         // iterate over both the vertical and horizontal and check if it is unique.
         int xCounter = 0;
