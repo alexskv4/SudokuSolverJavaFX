@@ -59,6 +59,7 @@ public class SudokuSolver {
     }
 
     private boolean solve (char[][] board){
+
         for (int i = 0; i<= 8; i++){ //iterating down the vertical
             for (int j = 0; j<= 8; j++){ //iterating across the row
                 if (board[i][j] == '.'){ //Check if empty cell
