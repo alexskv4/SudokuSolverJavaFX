@@ -1,0 +1,7 @@
+.text-field {
+
+    -fx-max-width: 630;
+    -fx-min-width: 630;
+    -fx-alignment: center;
+
+}
