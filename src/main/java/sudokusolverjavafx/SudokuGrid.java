@@ -1,9 +1,13 @@
 package sudokusolverjavafx;
 
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+
+import java.util.concurrent.TimeUnit;
 
 public class SudokuGrid extends GridPane {
 
@@ -139,4 +143,58 @@ public class SudokuGrid extends GridPane {
         }
         return sudokuCharArr;
     }
+
+    public void runningNumbers (){
+        Task task = new Task<Void>() {
+            @Override
+            public Void call() throws Exception {
+                for (int y = 0; y < 9; y++){
+                    for (int x = 0; x < 9; x++){
+
+                        int finalX = x;
+                        int finalY = y;
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                setCell("1", finalX, finalY, false);
+                            }
+                        });
+
+                        try {
+                            TimeUnit.SECONDS.sleep(1);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                return null;
+            }
+        };
+        Thread th = new Thread(task);
+        th.start();
+    }
+
+//    public void runningNumbers (){
+//
+//        for (int y = 0; y < 9; y++){
+//            for (int x = 0; x < 9; x++){
+//
+//                int finalX = x;
+//                int finalY = y;
+//                Platform.runLater(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        setCell("1", finalX, finalY, false);
+//                    }
+//                });
+//
+//                try {
+//                    TimeUnit.SECONDS.sleep(1);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//
+//    }
 }

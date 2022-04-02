@@ -54,11 +54,11 @@ public class SudokuSolver {
     };
 
     public char[][] solveSudoku(char[][] board){
-        solve(board);
+        solve(board); //add thread here (task)
         return board;
     }
 
-    private boolean solve (char[][] board){
+    private boolean solve (char[][] board){     //Put the run() part of the runlater thing in this one
 
         for (int i = 0; i<= 8; i++){ //iterating down the vertical
             for (int j = 0; j<= 8; j++){ //iterating across the row
