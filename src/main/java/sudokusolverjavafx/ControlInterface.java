@@ -13,7 +13,7 @@ public class ControlInterface extends VBox {
         Button exampleSudokuButton2 = new Button("Example Sudoku 2");
         Button runningNumbersButton = new Button ("Running numbers");
 
-        solveButton.setOnAction(event -> grid.loadSudoku(new SudokuSolver().solveSudoku(grid.convertSudokuToChar(grid.cellArr)))); //todo: If the sudoku solver cant solve, make it show an error.
+        solveButton.setOnAction(event -> grid.solveSudoku()); //todo: If the sudoku solver cant solve, make it show an error.
         clearButton.setOnAction(event -> grid.loadSudoku(SudokuSolver.board4));
         exampleSudokuButton1.setOnAction(event -> grid.loadSudoku(SudokuSolver.board1));
         exampleSudokuButton2.setOnAction(event -> grid.loadSudoku(SudokuSolver.board2));

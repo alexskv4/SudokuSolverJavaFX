@@ -12,9 +12,11 @@ import java.util.concurrent.TimeUnit;
 public class SudokuGrid extends GridPane {
 
     public final SudokuCell[][] cellArr = new SudokuCell[9][9];
-
+    private SudokuSolver sudokuSolver;
+    public Thread solverThread;
     public SudokuGrid(){
 
+        sudokuSolver = new SudokuSolver(this);
         getStylesheets().add(Resources.get("SudokuGrid.css")); // Uses our resources class method to get the style from resources folder
 
         for (int x = 0; x<9; x++){
@@ -37,7 +39,6 @@ public class SudokuGrid extends GridPane {
                 SudokuCell sudokuCell = new SudokuCell();
                 sudokuCell.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(upBorderWidth, rightBorderWidth, downBorderWidth, leftBorderWidth))));
 
-                //todo Tie the cellArr to the board in the solve sudoku class to display every step. Possibly using event handling and firing.
                 //todo Put all this navigation logic in the sudokuCell class?
 
                 sudokuCell.setOnKeyPressed(event -> {
@@ -66,18 +67,13 @@ public class SudokuGrid extends GridPane {
                 add(sudokuCell, x, y);
             }
         }
-        loadSudoku(SudokuSolver.board4);
+        loadSudoku(SudokuSolver.board4); //todo: make static SudokuBoards class and put all the boards there.
     }
 
-    public void setCell(String val, int x, int y, boolean loadingPreset){
+    public void setCell(String val, int x, int y, boolean isValid){
 
         cellArr[y][x].setText(val);
-        if (!SudokuSolver.boardCheck(x, y, convertSudokuToChar(cellArr)) && !loadingPreset){
-            cellArr[y][x].setTextFill(Color.RED);
-        }
-        else{
-            cellArr[y][x].setTextFill(Color.BLACK);
-        }
+        cellArr[y][x].setTextFill(isValid? Color.BLACK : Color.RED);
     }
 
     private int wrapGridIndex (int currentIndex) {
@@ -89,7 +85,6 @@ public class SudokuGrid extends GridPane {
         } else {
             return currentIndex;
         }
-
     }
 
     public void loadSudoku(char[][] sudoku){
@@ -144,8 +139,35 @@ public class SudokuGrid extends GridPane {
         return sudokuCharArr;
     }
 
+    public void solveSudoku () {
+        sudokuSolver.setBoard(convertSudokuToChar(cellArr));
+        Task<Void> task = new Task<>() {
+            @Override
+            public Void call() throws Exception {
+                sudokuSolver.solve();
+                return null;
+            }
+        };
+        solverThread = new Thread(task);
+        solverThread.start();
+    }
+
+    public void updateGuiCell (String val, int x, int y, boolean isValid) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                setCell(val, x, y, isValid);
+            }
+        });
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void runningNumbers (){
-        Task task = new Task<Void>() {
+        Task<Void> task = new Task<>() {
             @Override
             public Void call() throws Exception {
                 for (int y = 0; y < 9; y++){
@@ -173,28 +195,4 @@ public class SudokuGrid extends GridPane {
         Thread th = new Thread(task);
         th.start();
     }
-
-//    public void runningNumbers (){
-//
-//        for (int y = 0; y < 9; y++){
-//            for (int x = 0; x < 9; x++){
-//
-//                int finalX = x;
-//                int finalY = y;
-//                Platform.runLater(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        setCell("1", finalX, finalY, false);
-//                    }
-//                });
-//
-//                try {
-//                    TimeUnit.SECONDS.sleep(1);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//
-//    }
 }

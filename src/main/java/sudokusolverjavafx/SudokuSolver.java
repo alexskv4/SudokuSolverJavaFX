@@ -53,27 +53,35 @@ public class SudokuSolver {
             {'.','.','.','.','.','.','.','.','.'}
     };
 
-    public char[][] solveSudoku(char[][] board){
-        solve(board); //add thread here (task)
-        return board;
+    private SudokuGrid grid;
+    private char[][] board;
+
+    public SudokuSolver (SudokuGrid grid) {
+        this.grid = grid;
+        this.board = board4;
     }
 
-    private boolean solve (char[][] board){     //Put the run() part of the runlater thing in this one
+    public void setBoard (char[][] board) {
+        this.board = board;
+    }
 
+    public boolean solve (){     //Put the run() part of the runlater thing in this one
         for (int i = 0; i<= 8; i++){ //iterating down the vertical
             for (int j = 0; j<= 8; j++){ //iterating across the row
                 if (board[i][j] == '.'){ //Check if empty cell
                     for (int k =1; k<= 9; k++){ //iterate trying to put every integer into cell
                         board[i][j] = (char)(k + '0');
-                        
-                        if (boardCheck(j, i, board)){
-                            if (solve(board)){
+
+                        if (boardCheck(j, i)){
+                            grid.updateGuiCell(String.valueOf(k), j, i, true);
+                            if (solve()){
                                 return true;
                             }
                         }
-
+                        grid.updateGuiCell(String.valueOf(k), j, i, false);
                         if (k == 9) {
                             board[i][j] = '.';
+                            grid.updateGuiCell("", j, i, true);
                             return false;
                         }
 
@@ -88,31 +96,29 @@ public class SudokuSolver {
         return true;
     }
 
-    public static boolean boardCheck(int numIndex, int rowIndex, char[][] board){
+    public boolean boardCheck(int numIndex, int rowIndex){
 
         // iterate over both the vertical and horizontal and check if it is unique.
         int xCounter = 0;
         int yCounter = 0;
 
-
         for (char digit : board[rowIndex]){ // Checking if number is unique in row.
             if (digit == board[rowIndex][numIndex]){
                 xCounter++;
+                if (xCounter > 1){
+                    return false;
+                }
             }
-        }
-        if (xCounter != 1){
-            return false;
         }
 
         for (int i = 0; i <= 8; i++){  // Checking if number is unique in column.
             if (board[i][numIndex] == board[rowIndex][numIndex]){
                 yCounter++;
+                if (yCounter > 1){
+                    return false;
+                }
             }
         }
-        if (yCounter != 1){
-            return false;
-        }
-
 
         int cornerVertIndex = rowIndex - (rowIndex % 3);
         int cornerHoriIndex = numIndex - (numIndex % 3);
@@ -120,13 +126,11 @@ public class SudokuSolver {
 
         for (int i = cornerVertIndex; i < cornerVertIndex + 3; i++){
             for (int j = cornerHoriIndex; j < cornerHoriIndex + 3; j++){
-                if (board[i][j] == '.'){
-                    continue;
+                if (board[i][j] != '.'){
+                    square.add(board[i][j]);
                 }
-                square.add(board[i][j]);
             }
         }
-
-        return square.size() == new HashSet<>(square).size();
+        return (square.size() == new HashSet<>(square).size());
     }
 }
