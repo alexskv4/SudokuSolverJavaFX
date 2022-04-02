@@ -55,10 +55,10 @@ public class SudokuGrid extends GridPane {
                         cellArr[finalY][wrapGridIndex(finalX + 1)].requestFocus();
                     }
                     if (event.getCode().isDigitKey() && event.getCode() != KeyCode.DIGIT0){
-                        setCell(event.getText(), finalX, finalY, false);
+                        setCell(event.getText(), finalX, finalY, true); //todo: fix highlighting
                     }
                     if (event.getCode() == KeyCode.BACK_SPACE){
-                        setCell("", finalX, finalY, false);
+                        setCell("", finalX, finalY, true);
                     }
                     event.consume();
                 });

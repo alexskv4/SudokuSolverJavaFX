@@ -7,8 +7,8 @@ public class ControlInterface extends VBox {
 
     public ControlInterface(SudokuGrid grid){
 
-        Button solveButton = new Button("Solve");
-        Button clearButton = new Button("Clear Board");
+        Button solveButton = new Button("Solve"); //todo: Make the solve button turn into a stop button when the solving thread is launched. Make it kill the thread on press.
+        Button clearButton = new Button("Clear Board"); //todo: Grey out all other buttons when it is actively solving.
         Button exampleSudokuButton1 = new Button("Example Sudoku 1");
         Button exampleSudokuButton2 = new Button("Example Sudoku 2");
         Button runningNumbersButton = new Button ("Running numbers");
