@@ -72,7 +72,7 @@ public class SudokuGrid extends GridPane {
                 add(sudokuCell, x, y);
             }
         }
-        loadSudoku(SudokuBoards.board4); //todo: make static SudokuBoards class and put all the boards there.
+        loadSudoku(SudokuBoards.board4);
     }
 
     public void setCell(String val, int x, int y, boolean isValid){

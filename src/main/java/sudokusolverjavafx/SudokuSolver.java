@@ -24,7 +24,7 @@ public class SudokuSolver {
                 if (board[i][j] == '.'){ //Check if empty cell
                     for (int k =1; k<= 9; k++){ //iterate trying to put every integer into cell
                         if (grid.showBacktracking) {
-                            grid.updateIterationCounter(grid);
+                            grid.updateIterationCounter(grid); //todo: Make iteration counter work when backtracking is not shown. (Performance issues)
                         }
                         board[i][j] = (char)(k + '0');
                         if (grid.isSolverStopped) {

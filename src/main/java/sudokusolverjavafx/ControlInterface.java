@@ -10,7 +10,7 @@ public class ControlInterface extends VBox {
     private Button solveButton;
     private Button clearButton;
     private Button exampleSudokuButton1;
-    private Button exampleSudokuButton2; // todo: make these private
+    private Button exampleSudokuButton2;
     private Button runningNumbersButton;
     private CheckBox backtrackingCheckBox;
     private Label iterationCount;
@@ -25,12 +25,6 @@ public class ControlInterface extends VBox {
         backtrackingCheckBox = new CheckBox("Show Backtracking");
         backtrackingCheckBox.selectedProperty().set(true);
         iterationCount = new Label("Iteration Count: 0");
-
-//        solveButton.setOnAction(event -> grid.solveSudoku());  // todo : Put button action definitions back here from sudoku grid
-//        clearButton.setOnAction(event -> grid.loadSudoku(SudokuSolver.board4));
-//        exampleSudokuButton1.setOnAction(event -> grid.loadSudoku(SudokuSolver.board1));
-//        exampleSudokuButton2.setOnAction(event -> grid.loadSudoku(SudokuSolver.board2));
-//        runningNumbersButton.setOnAction(event -> grid.runningNumbers());
 
         getChildren().add(runningNumbersButton);
         getChildren().add(solveButton);
