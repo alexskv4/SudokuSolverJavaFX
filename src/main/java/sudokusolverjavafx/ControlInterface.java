@@ -6,12 +6,12 @@ import javafx.scene.layout.VBox;
 
 public class ControlInterface extends VBox {
 
-    public Button solveButton;
-    public Button clearButton;
-    public Button exampleSudokuButton1;
-    public Button exampleSudokuButton2; // todo: make these private
-    public Button runningNumbersButton;
-    public CheckBox backtrackingCheckBox;
+    private Button solveButton;
+    private Button clearButton;
+    private Button exampleSudokuButton1;
+    private Button exampleSudokuButton2; // todo: make these private
+    private Button runningNumbersButton;
+    private CheckBox backtrackingCheckBox;
 
 
     public ControlInterface(){
@@ -68,7 +68,18 @@ public class ControlInterface extends VBox {
             runningNumbersButton.setDisable(false);
 
         }
-        
+    }
+    
+    public void initializeButtons (SudokuGrid grid) {
+        solveButton.setOnAction(event -> {
+            disableAll(grid);
+            grid.solveSudoku();
+        }); //todo: If the sudoku solver cant solve, make it show an error.
+        clearButton.setOnAction(event -> grid.clearBoard());
+        exampleSudokuButton1.setOnAction(event -> grid.loadSudoku(SudokuBoards.board1));
+        exampleSudokuButton2.setOnAction(event -> grid.loadSudoku(SudokuBoards.board2));
+        runningNumbersButton.setOnAction(event -> grid.runningNumbers());
+        backtrackingCheckBox.setOnAction(event -> grid.showBacktracking = backtrackingCheckBox.selectedProperty().get());
     }
 
 }

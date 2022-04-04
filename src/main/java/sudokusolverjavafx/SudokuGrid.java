@@ -20,17 +20,8 @@ public class SudokuGrid extends GridPane {
     public SudokuGrid(ControlInterface controlInterface){
         this.controlInterface = controlInterface;
         sudokuSolver = new SudokuSolver(this);
+        controlInterface.initializeButtons(this);
         getStylesheets().add(Resources.get("SudokuGrid.css")); // Uses our resources class method to get the style from resources folder
-
-        controlInterface.solveButton.setOnAction(event -> {
-            controlInterface.disableAll(this);
-            solveSudoku();
-        }); //todo: If the sudoku solver cant solve, make it show an error.
-        controlInterface.clearButton.setOnAction(event -> clearBoard());
-        controlInterface.exampleSudokuButton1.setOnAction(event -> loadSudoku(sudokuSolver.board1));
-        controlInterface.exampleSudokuButton2.setOnAction(event -> loadSudoku(sudokuSolver.board2));
-        controlInterface.runningNumbersButton.setOnAction(event -> runningNumbers());
-        controlInterface.backtrackingCheckBox.setOnAction(event -> showBacktracking = controlInterface.backtrackingCheckBox.selectedProperty().get());
 
         for (int x = 0; x<9; x++){
             for (int y = 0; y<9; y++){
@@ -80,7 +71,7 @@ public class SudokuGrid extends GridPane {
                 add(sudokuCell, x, y);
             }
         }
-        loadSudoku(SudokuSolver.board4); //todo: make static SudokuBoards class and put all the boards there.
+        loadSudoku(SudokuBoards.board4); //todo: make static SudokuBoards class and put all the boards there.
     }
 
     public void setCell(String val, int x, int y, boolean isValid){
@@ -198,7 +189,7 @@ public class SudokuGrid extends GridPane {
     }
 
     public void clearBoard() {
-        loadSudoku(sudokuSolver.board4);
+        loadSudoku(SudokuBoards.board4);
     }
 
     public void runningNumbers (){
