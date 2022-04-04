@@ -14,10 +14,22 @@ public class SudokuGrid extends GridPane {
     public final SudokuCell[][] cellArr = new SudokuCell[9][9];
     private SudokuSolver sudokuSolver;
     public Thread solverThread;
-    public SudokuGrid(){
-
+    public ControlInterface controlInterface;
+    public boolean isSolverStopped = false;
+    public SudokuGrid(ControlInterface controlInterface){
+        this.controlInterface = controlInterface;
         sudokuSolver = new SudokuSolver(this);
         getStylesheets().add(Resources.get("SudokuGrid.css")); // Uses our resources class method to get the style from resources folder
+
+        controlInterface.solveButton.setOnAction(event -> {
+            controlInterface.disableAll(this);
+            solveSudoku();
+        }); //todo: If the sudoku solver cant solve, make it show an error.
+        controlInterface.clearButton.setOnAction(event -> clearBoard());
+        controlInterface.exampleSudokuButton1.setOnAction(event -> loadSudoku(sudokuSolver.board1));
+        controlInterface.exampleSudokuButton2.setOnAction(event -> loadSudoku(sudokuSolver.board2));
+        controlInterface.runningNumbersButton.setOnAction(event -> runningNumbers());
+
 
         for (int x = 0; x<9; x++){
             for (int y = 0; y<9; y++){
@@ -148,8 +160,21 @@ public class SudokuGrid extends GridPane {
                 return null;
             }
         };
+        isSolverStopped = false;
         solverThread = new Thread(task);
         solverThread.start();
+        controlInterface.disableAll(this);
+
+    }
+
+    public void solverFinished (SudokuGrid grid) { //todo: When clearing board mid solve, sometimes garbage numbers are left on the board. Race condition, board cleared before solver fully exits.
+        Platform.runLater(new Runnable(){
+            @Override
+            public void run() {
+                isSolverStopped = true;
+                controlInterface.disableAll(grid);
+            }
+        });
     }
 
     public void updateGuiCell (String val, int x, int y, boolean isValid) {
@@ -164,6 +189,10 @@ public class SudokuGrid extends GridPane {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void clearBoard() {
+        loadSudoku(sudokuSolver.board4);
     }
 
     public void runningNumbers (){

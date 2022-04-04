@@ -65,13 +65,15 @@ public class SudokuSolver {
         this.board = board;
     }
 
-    public boolean solve (){     //Put the run() part of the runlater thing in this one
+    public boolean solve (){
         for (int i = 0; i<= 8; i++){ //iterating down the vertical
             for (int j = 0; j<= 8; j++){ //iterating across the row
                 if (board[i][j] == '.'){ //Check if empty cell
                     for (int k =1; k<= 9; k++){ //iterate trying to put every integer into cell
                         board[i][j] = (char)(k + '0');
-
+                        if (grid.isSolverStopped) {
+                            return true;
+                        }
                         if (boardCheck(j, i)){
                             grid.updateGuiCell(String.valueOf(k), j, i, true);
                             if (solve()){
@@ -93,6 +95,7 @@ public class SudokuSolver {
                 }
             }
         }
+        grid.solverFinished(grid);
         return true;
     }
 

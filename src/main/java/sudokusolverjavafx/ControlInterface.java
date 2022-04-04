@@ -5,19 +5,26 @@ import javafx.scene.layout.VBox;
 
 public class ControlInterface extends VBox {
 
-    public ControlInterface(SudokuGrid grid){
+    public Button solveButton;
+    public Button clearButton;
+    public Button exampleSudokuButton1;
+    public Button exampleSudokuButton2; // todo: make these private
+    public Button runningNumbersButton;
 
-        Button solveButton = new Button("Solve"); //todo: Make the solve button turn into a stop button when the solving thread is launched. Make it kill the thread on press.
-        Button clearButton = new Button("Clear Board"); //todo: Grey out all other buttons when it is actively solving.
-        Button exampleSudokuButton1 = new Button("Example Sudoku 1");
-        Button exampleSudokuButton2 = new Button("Example Sudoku 2");
-        Button runningNumbersButton = new Button ("Running numbers");
 
-        solveButton.setOnAction(event -> grid.solveSudoku()); //todo: If the sudoku solver cant solve, make it show an error.
-        clearButton.setOnAction(event -> grid.loadSudoku(SudokuSolver.board4));
-        exampleSudokuButton1.setOnAction(event -> grid.loadSudoku(SudokuSolver.board1));
-        exampleSudokuButton2.setOnAction(event -> grid.loadSudoku(SudokuSolver.board2));
-        runningNumbersButton.setOnAction(event -> grid.runningNumbers());
+    public ControlInterface(){
+
+        solveButton = new Button("Solve");
+        clearButton = new Button("Clear Board");
+        exampleSudokuButton1 = new Button("Example Sudoku 1");
+        exampleSudokuButton2 = new Button("Example Sudoku 2");
+        runningNumbersButton = new Button ("Running numbers");
+
+//        solveButton.setOnAction(event -> grid.solveSudoku());  // todo : Put button action definitions back here from sudoku grid
+//        clearButton.setOnAction(event -> grid.loadSudoku(SudokuSolver.board4));
+//        exampleSudokuButton1.setOnAction(event -> grid.loadSudoku(SudokuSolver.board1));
+//        exampleSudokuButton2.setOnAction(event -> grid.loadSudoku(SudokuSolver.board2));
+//        runningNumbersButton.setOnAction(event -> grid.runningNumbers());
 
         getChildren().add(runningNumbersButton);
         getChildren().add(solveButton);
@@ -25,6 +32,38 @@ public class ControlInterface extends VBox {
         getChildren().add(exampleSudokuButton1);
         getChildren().add(exampleSudokuButton2);
 
+    }
+    
+    public void disableAll (SudokuGrid grid) {
+
+        if (!grid.isSolverStopped){
+
+            solveButton.setText("Stop");
+            solveButton.setOnAction(event -> {
+                grid.isSolverStopped = true;
+                grid.clearBoard();
+                disableAll(grid);
+
+            });
+            clearButton.setDisable(true);
+            exampleSudokuButton1.setDisable(true);
+            exampleSudokuButton2.setDisable(true);
+            runningNumbersButton.setDisable(true);
+        }
+        else {
+
+            solveButton.setText("Solve");
+            solveButton.setOnAction(event -> {
+                //disableAll(grid);
+                grid.solveSudoku();
+            });
+            clearButton.setDisable(false);
+            exampleSudokuButton1.setDisable(false);
+            exampleSudokuButton2.setDisable(false);
+            runningNumbersButton.setDisable(false);
+
+        }
+        
     }
 
 }

@@ -9,8 +9,9 @@ import java.io.IOException;
 public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
-        SudokuGrid sudokuGrid = new SudokuGrid();
-        HBox hbox = new HBox(sudokuGrid, new ControlInterface(sudokuGrid));
+        ControlInterface controlInterface = new ControlInterface();
+        SudokuGrid sudokuGrid = new SudokuGrid(controlInterface);
+        HBox hbox = new HBox(sudokuGrid, controlInterface);
         Scene scene = new Scene(new VBox(hbox, new TextfieldSudokuLoader(sudokuGrid)));
         stage.setTitle("Sudoku Solver");
         stage.setScene(scene);
