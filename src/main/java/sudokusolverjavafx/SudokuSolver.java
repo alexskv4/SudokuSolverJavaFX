@@ -64,6 +64,7 @@ public class SudokuSolver {
     public void setBoard (char[][] board) {
         this.board = board;
     }
+    public char[][] getBoard () {return board;}
 
     public boolean solve (){
         for (int i = 0; i<= 8; i++){ //iterating down the vertical
@@ -75,15 +76,21 @@ public class SudokuSolver {
                             return true;
                         }
                         if (boardCheck(j, i)){
-                            grid.updateGuiCell(String.valueOf(k), j, i, true);
+                            if(grid.showBacktracking) {
+                                grid.updateGuiCell(String.valueOf(k), j, i, true);
+                            }
                             if (solve()){
                                 return true;
                             }
                         }
-                        grid.updateGuiCell(String.valueOf(k), j, i, false);
+                        if (grid.showBacktracking) {
+                            grid.updateGuiCell(String.valueOf(k), j, i, false);
+                        }
                         if (k == 9) {
                             board[i][j] = '.';
-                            grid.updateGuiCell("", j, i, true);
+                            if (grid.showBacktracking) {
+                                grid.updateGuiCell("", j, i, true);
+                            }
                             return false;
                         }
 

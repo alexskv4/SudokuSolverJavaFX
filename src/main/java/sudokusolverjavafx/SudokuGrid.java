@@ -16,6 +16,7 @@ public class SudokuGrid extends GridPane {
     public Thread solverThread;
     public ControlInterface controlInterface;
     public boolean isSolverStopped = false;
+    public boolean showBacktracking = true;
     public SudokuGrid(ControlInterface controlInterface){
         this.controlInterface = controlInterface;
         sudokuSolver = new SudokuSolver(this);
@@ -29,7 +30,7 @@ public class SudokuGrid extends GridPane {
         controlInterface.exampleSudokuButton1.setOnAction(event -> loadSudoku(sudokuSolver.board1));
         controlInterface.exampleSudokuButton2.setOnAction(event -> loadSudoku(sudokuSolver.board2));
         controlInterface.runningNumbersButton.setOnAction(event -> runningNumbers());
-
+        controlInterface.backtrackingCheckBox.setOnAction(event -> showBacktracking = controlInterface.backtrackingCheckBox.selectedProperty().get());
 
         for (int x = 0; x<9; x++){
             for (int y = 0; y<9; y++){
@@ -110,6 +111,7 @@ public class SudokuGrid extends GridPane {
                 }
                 else {
                     setCell(cellVal, x, y, true);
+                    //cellArr[y][x].setStyle("-fx-font-weight: bold"); //todo: Make the numbers bold on loading of a sudoku board
                 }
             }
         }
@@ -173,6 +175,9 @@ public class SudokuGrid extends GridPane {
             public void run() {
                 isSolverStopped = true;
                 controlInterface.disableAll(grid);
+                if (!showBacktracking){
+                    loadSudoku(sudokuSolver.getBoard());
+                }
             }
         });
     }
@@ -181,6 +186,7 @@ public class SudokuGrid extends GridPane {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
+
                 setCell(val, x, y, isValid);
             }
         });

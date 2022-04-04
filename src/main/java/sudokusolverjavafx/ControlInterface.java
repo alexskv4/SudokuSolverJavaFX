@@ -1,6 +1,7 @@
 package sudokusolverjavafx;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.layout.VBox;
 
 public class ControlInterface extends VBox {
@@ -10,6 +11,7 @@ public class ControlInterface extends VBox {
     public Button exampleSudokuButton1;
     public Button exampleSudokuButton2; // todo: make these private
     public Button runningNumbersButton;
+    public CheckBox backtrackingCheckBox;
 
 
     public ControlInterface(){
@@ -19,6 +21,8 @@ public class ControlInterface extends VBox {
         exampleSudokuButton1 = new Button("Example Sudoku 1");
         exampleSudokuButton2 = new Button("Example Sudoku 2");
         runningNumbersButton = new Button ("Running numbers");
+        backtrackingCheckBox = new CheckBox("Show Backtracking");
+        backtrackingCheckBox.selectedProperty().set(true);
 
 //        solveButton.setOnAction(event -> grid.solveSudoku());  // todo : Put button action definitions back here from sudoku grid
 //        clearButton.setOnAction(event -> grid.loadSudoku(SudokuSolver.board4));
@@ -31,6 +35,7 @@ public class ControlInterface extends VBox {
         getChildren().add(clearButton);
         getChildren().add(exampleSudokuButton1);
         getChildren().add(exampleSudokuButton2);
+        getChildren().add(backtrackingCheckBox);
 
     }
     
