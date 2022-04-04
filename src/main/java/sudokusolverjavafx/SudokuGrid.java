@@ -17,6 +17,7 @@ public class SudokuGrid extends GridPane {
     public ControlInterface controlInterface;
     public boolean isSolverStopped = false;
     public boolean showBacktracking = true;
+    public int iterationCount = 0;
     public SudokuGrid(ControlInterface controlInterface){
         this.controlInterface = controlInterface;
         sudokuSolver = new SudokuSolver(this);
@@ -160,6 +161,16 @@ public class SudokuGrid extends GridPane {
 
     }
 
+    public void updateIterationCounter (SudokuGrid grid) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                grid.iterationCount = grid.iterationCount + 1;
+                controlInterface.updateIterationCounter(grid);
+            }
+        });
+    }
+
     public void solverFinished (SudokuGrid grid) { //todo: When clearing board mid solve, sometimes garbage numbers are left on the board. Race condition, board cleared before solver fully exits.
         Platform.runLater(new Runnable(){
             @Override
@@ -189,6 +200,8 @@ public class SudokuGrid extends GridPane {
     }
 
     public void clearBoard() {
+        iterationCount = -1;
+        updateIterationCounter(this);
         loadSudoku(SudokuBoards.board4);
     }
 

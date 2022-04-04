@@ -2,6 +2,7 @@ package sudokusolverjavafx;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
 public class ControlInterface extends VBox {
@@ -12,7 +13,7 @@ public class ControlInterface extends VBox {
     private Button exampleSudokuButton2; // todo: make these private
     private Button runningNumbersButton;
     private CheckBox backtrackingCheckBox;
-
+    private Label iterationCount;
 
     public ControlInterface(){
 
@@ -23,6 +24,7 @@ public class ControlInterface extends VBox {
         runningNumbersButton = new Button ("Running numbers");
         backtrackingCheckBox = new CheckBox("Show Backtracking");
         backtrackingCheckBox.selectedProperty().set(true);
+        iterationCount = new Label("Iteration Count: 0");
 
 //        solveButton.setOnAction(event -> grid.solveSudoku());  // todo : Put button action definitions back here from sudoku grid
 //        clearButton.setOnAction(event -> grid.loadSudoku(SudokuSolver.board4));
@@ -36,6 +38,7 @@ public class ControlInterface extends VBox {
         getChildren().add(exampleSudokuButton1);
         getChildren().add(exampleSudokuButton2);
         getChildren().add(backtrackingCheckBox);
+        getChildren().add(iterationCount);
 
     }
     
@@ -80,6 +83,10 @@ public class ControlInterface extends VBox {
         exampleSudokuButton2.setOnAction(event -> grid.loadSudoku(SudokuBoards.board2));
         runningNumbersButton.setOnAction(event -> grid.runningNumbers());
         backtrackingCheckBox.setOnAction(event -> grid.showBacktracking = backtrackingCheckBox.selectedProperty().get());
+        iterationCount.setText("Number of iterations: " + grid.iterationCount);
     }
 
+    public void updateIterationCounter(SudokuGrid grid) {
+        iterationCount.setText("Number of iterations: " + grid.iterationCount);
+    }
 }
