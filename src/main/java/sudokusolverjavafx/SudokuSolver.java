@@ -23,6 +23,7 @@ public class SudokuSolver {
             for (int j = 0; j<= 8; j++){ //iterating across the row
                 if (board[i][j] == '.'){ //Check if empty cell
                     for (int k =1; k<= 9; k++){ //iterate trying to put every integer into cell
+                        grid.iterationCount++;
                         if (grid.showBacktracking) {
                             grid.updateIterationCounter(grid); //todo: Make iteration counter work when backtracking is not shown. (Performance issues)
                         }

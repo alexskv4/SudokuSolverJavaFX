@@ -31,11 +31,15 @@ public class TextfieldSudokuLoader extends HBox {
         textField.setOnKeyPressed(event -> {
             if(event.getCode() == KeyCode.ENTER){
                 loadSudoku(grid, textField);
+                grid.iterationCount = 0;
+                grid.updateIterationCounter(grid);
             }
         });
 
         submitButton.setOnAction(event -> {
             loadSudoku(grid, textField);
+            grid.iterationCount = 0;
+            grid.updateIterationCounter(grid);
         });
 
         getChildren().add(textField);

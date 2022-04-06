@@ -165,7 +165,7 @@ public class SudokuGrid extends GridPane {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                grid.iterationCount = grid.iterationCount + 1;
+                //grid.iterationCount = grid.iterationCount + 1;
                 controlInterface.updateIterationCounter(grid);
             }
         });
@@ -176,6 +176,7 @@ public class SudokuGrid extends GridPane {
             @Override
             public void run() {
                 isSolverStopped = true;
+                updateIterationCounter(grid);
                 controlInterface.disableAll(grid);
                 if (!showBacktracking){
                     loadSudoku(sudokuSolver.getBoard());
@@ -200,7 +201,7 @@ public class SudokuGrid extends GridPane {
     }
 
     public void clearBoard() {
-        iterationCount = -1;
+        iterationCount = 0;
         updateIterationCounter(this);
         loadSudoku(SudokuBoards.board4);
     }

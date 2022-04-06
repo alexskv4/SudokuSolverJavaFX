@@ -73,8 +73,17 @@ public class ControlInterface extends VBox {
             grid.solveSudoku();
         }); //todo: If the sudoku solver cant solve, make it show an error.
         clearButton.setOnAction(event -> grid.clearBoard());
-        exampleSudokuButton1.setOnAction(event -> grid.loadSudoku(SudokuBoards.board1));
-        exampleSudokuButton2.setOnAction(event -> grid.loadSudoku(SudokuBoards.board2));
+        exampleSudokuButton1.setOnAction(event -> {
+            grid.loadSudoku(SudokuBoards.board1);
+            grid.iterationCount = 0;
+            grid.updateIterationCounter(grid);  // todo: clean up these lambdas. (move iteration count zeroing to somewhere else.)
+        });
+        exampleSudokuButton2.setOnAction(event -> {
+            grid.loadSudoku(SudokuBoards.board2);
+            grid.iterationCount = 0;
+            grid.updateIterationCounter(grid);
+        });
+
         runningNumbersButton.setOnAction(event -> grid.runningNumbers());
         backtrackingCheckBox.setOnAction(event -> grid.showBacktracking = backtrackingCheckBox.selectedProperty().get());
         iterationCount.setText("Number of iterations: " + grid.iterationCount);
